@@ -17,12 +17,14 @@ const PluginsInitializer = ({ children }: { children: React.ReactNode }) => {
     () => init(appPlugins)
   );
   const setPlugin = React.useRef((pluginId: string) => {
+    console.log(`setPlugin called for: ${pluginId}`);
     dispatch({ type: 'SET_PLUGIN_READY', pluginId });
   });
 
-  const hasApluginNotReady = Object.keys(plugins).some(
-    (plugin) => plugins[plugin].isReady === false
-  );
+  const hasApluginNotReady = Object.keys(plugins).some((plugin) => {
+    console.log('Plugin state:', plugin, plugins[plugin]); // Debugging
+    return plugins[plugin].isReady === false;
+  });
 
   /**
    *
@@ -53,7 +55,7 @@ const PluginsInitializer = ({ children }: { children: React.ReactNode }) => {
 
       if (InitializerComponent) {
         const key = plugins[current].pluginId;
-
+        console.log(`Rendering Initializer for: ${plugins[current].pluginId}`);
         acc.push(<InitializerComponent key={key} setPlugin={setPlugin.current} />);
       }
 
