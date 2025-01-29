@@ -35,6 +35,7 @@ const PluginsInitializer = ({ children }: { children: React.ReactNode }) => {
     'Checking if any plugin is not ready:',
     Object.entries(plugins).map(([key, plugin]) => ({ key, isReady: plugin.isReady }))
   );
+  console.log('has plugin not read', hasApluginNotReady);
 
   /**
    *
