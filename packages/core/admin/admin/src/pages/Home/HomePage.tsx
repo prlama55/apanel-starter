@@ -19,7 +19,6 @@ const HomePageCE = () => {
   const { formatMessage } = useIntl();
   const user = useAuth('HomePageCE', (state) => state.user);
   const displayName = user?.firstname ?? user?.username ?? user?.email;
-  console.log('rendered homepage');
 
   return (
     <Main>

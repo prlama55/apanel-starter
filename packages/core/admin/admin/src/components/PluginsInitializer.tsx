@@ -67,11 +67,11 @@ const PluginsInitializer = ({ children }: { children: React.ReactNode }) => {
     return (
       <>
         {initializers}
-        <Page.Loading />
+        <div>Plugins failed to load</div>
       </>
     );
   }
-  console.log('rendering children');
+  console.log('rendering children', children);
   return children;
 };
 

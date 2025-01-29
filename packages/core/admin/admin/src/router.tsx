@@ -36,6 +36,8 @@ const getInitialRoutes = (): RouteObject[] => [
     lazy: async () => {
       const { HomePage } = await import('./pages/Home/HomePage');
 
+      console.log('📦 Loading HomePage...', HomePage);
+
       return {
         Component: HomePage,
       };
