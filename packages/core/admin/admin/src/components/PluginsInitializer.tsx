@@ -17,8 +17,13 @@ const PluginsInitializer = ({ children }: { children: React.ReactNode }) => {
     () => init(appPlugins)
   );
   const setPlugin = React.useRef((pluginId: string) => {
-    console.log(`setPlugin called for: ${pluginId}`);
+    console.log(`🟡 Before setPlugin is called for: ${pluginId}`, plugins[pluginId]);
+
     dispatch({ type: 'SET_PLUGIN_READY', pluginId });
+
+    setTimeout(() => {
+      console.log(`🟢 After setPlugin is called for: ${pluginId}`, plugins[pluginId]);
+    }, 100);
   });
 
   const hasApluginNotReady = Object.keys(plugins).some((plugin) => {
@@ -26,7 +31,10 @@ const PluginsInitializer = ({ children }: { children: React.ReactNode }) => {
     return plugins[plugin].isReady === false;
   });
 
-  console.log('Checking if any plugin is not ready:', hasApluginNotReady);
+  console.log(
+    'Checking if any plugin is not ready:',
+    Object.entries(plugins).map(([key, plugin]) => ({ key, isReady: plugin.isReady }))
+  );
 
   /**
    *
