@@ -19,6 +19,30 @@ interface AppProps {
   store: Store;
 }
 
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error('🔥 Suspense Error Caught:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <div style={{ color: 'red' }}>Something went wrong! Check the console.</div>;
+    }
+
+    return this.props.children;
+  }
+}
+F;
+
 const App = ({ strapi, store }: AppProps) => {
   useEffect(() => {
     const language = localStorage.getItem(LANGUAGE_LOCAL_STORAGE_KEY) || 'en';
@@ -30,9 +54,18 @@ const App = ({ strapi, store }: AppProps) => {
 
   return (
     <Providers strapi={strapi} store={store}>
-      <Suspense fallback={<Page.Loading />}>
-        <Outlet />
-      </Suspense>
+      <ErrorBoundary>
+        <Suspense
+          fallback={
+            <>
+              {console.log('Suspense got me loaidng...')}
+              <Page.Loading />
+            </>
+          }
+        >
+          <Outlet />
+        </Suspense>
+      </ErrorBoundary>
     </Providers>
   );
 };
