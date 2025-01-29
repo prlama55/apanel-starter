@@ -26,6 +26,8 @@ const PluginsInitializer = ({ children }: { children: React.ReactNode }) => {
     return plugins[plugin].isReady === false;
   });
 
+  console.log('Checking if any plugin is not ready:', hasApluginNotReady);
+
   /**
    *
    * I have spent some time trying to understand what is happening here, and wanted to
@@ -50,6 +52,8 @@ const PluginsInitializer = ({ children }: { children: React.ReactNode }) => {
    */
 
   if (hasApluginNotReady) {
+    console.log('A plugin is still not ready, showing loading screen.');
+
     const initializers = Object.keys(plugins).reduce((acc, current) => {
       const InitializerComponent = plugins[current].initializer;
 
@@ -96,6 +100,7 @@ const reducer: React.Reducer<State, Action> = (state = initialState, action: Act
   produce(state, (draftState) => {
     switch (action.type) {
       case 'SET_PLUGIN_READY': {
+        console.log(`Reducer: Setting ${action.pluginId} to ready`);
         set(draftState, ['plugins', action.pluginId, 'isReady'], true);
         break;
       }
