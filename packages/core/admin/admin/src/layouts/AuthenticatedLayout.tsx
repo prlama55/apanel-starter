@@ -104,12 +104,14 @@ const AdminLayout = () => {
     trackUsage('didAccessAuthenticatedAdministration');
   });
 
+  console.log('🔄 isLoadingAppInfo =', isLoadingAppInfo);
+  console.log('🔄 isLoadingMenu =', isLoadingMenu);
   // We don't need to wait for the release query to be fetched before rendering the plugins
   // however, we need the appInfos and the permissions
   if (isLoadingMenu || isLoadingAppInfo) {
     return <Page.Loading />;
   }
-
+  console.log('🟡 Wrapping with AppInfoProvider...');
   return (
     <AppInfoProvider
       {...appInfo}
@@ -117,6 +119,7 @@ const AdminLayout = () => {
       latestStrapiReleaseTag={tagName}
       shouldUpdateStrapi={checkLatestStrapiVersion(strapiVersion, tagName)}
     >
+      {console.log('✅ AppInfoProvider rendered!')}
       <NpsSurvey />
       <PluginsInitializer>
         <DndProvider backend={HTML5Backend}>
@@ -130,7 +133,9 @@ const AdminLayout = () => {
                 pluginsSectionLinks={pluginsSectionLinks}
               />
               <Box flex={1}>
+                {console.log('before rendering the outlet')}
                 <Outlet />
+                {console.log('after rendering the outlet')}
                 <GuidedTourModal />
                 {showTutorials && <Onboarding />}
               </Box>
