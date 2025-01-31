@@ -2,8 +2,9 @@ import { SingleSelectOption, SingleSelect, Field } from '@strapi/design-system';
 import { useIntl } from 'react-intl';
 
 import { MAX_COMPONENT_DEPTH } from '../constants';
-import { useDataManager } from '../hooks/useDataManager';
 import { getChildrenMaxDepth, getComponentDepth } from '../utils/getMaxDepth';
+
+import { useDataManager } from './DataManager/useDataManager';
 
 import type { Internal } from '@strapi/types';
 interface Option {

@@ -9,14 +9,18 @@ import {
   SubNavLinkSection,
   SubNavSection,
   SubNavSections,
+  TextInput,
+  Button,
+  Flex,
 } from '@strapi/design-system';
-import { Plus } from '@strapi/icons';
+import { Check, Plus, Search } from '@strapi/icons';
 import upperFirst from 'lodash/upperFirst';
 import { useIntl } from 'react-intl';
 import { NavLink } from 'react-router-dom';
 import { styled } from 'styled-components';
 
 import { getTrad } from '../../utils/getTrad';
+import { useDataManager } from '../DataManager/useDataManager';
 
 import { useContentTypeBuilderMenu } from './useContentTypeBuilderMenu';
 
@@ -32,8 +36,29 @@ const SubNavLinkCustom = styled(SubNavLink)`
   }
 `;
 
+const Circle = styled.span<{ status: string }>`
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 50%;
+  background-color: ${({ status, theme }) => {
+    switch (status) {
+      case 'UNCHANGED':
+        return theme.colors.neutral500;
+      case 'CHANGED':
+        return theme.colors.warning500;
+      case 'REMOVED':
+        return theme.colors.danger500;
+      case 'NEW':
+        return theme.colors.success500;
+    }
+  }};
+  margin-left: 1rem;
+  display: inline-block;
+`;
+
 export const ContentTypeBuilderNav = () => {
   const { menu, search } = useContentTypeBuilderMenu();
+  const { saveSchema, isModified } = useDataManager();
   const { formatMessage } = useIntl();
 
   const pluginName = formatMessage({
@@ -43,17 +68,36 @@ export const ContentTypeBuilderNav = () => {
 
   return (
     <SubNav aria-label={pluginName}>
-      <SubNavHeader
-        searchable
-        value={search.value}
-        onClear={() => search.clear()}
-        onChange={(e) => search.onChange(e.target.value)}
-        label={pluginName}
-        searchLabel={formatMessage({
-          id: 'global.search',
-          defaultMessage: 'Search',
-        })}
-      />
+      <SubNavHeader label={pluginName} />
+      <Flex padding={4} gap={4} direction={'column'}>
+        <Button
+          startIcon={<Check />}
+          onClick={(e) => {
+            e.preventDefault();
+            // TODO: add confirmation prompt?
+            saveSchema();
+          }}
+          type="submit"
+          disabled={!isModified}
+          fullWidth
+        >
+          {formatMessage({
+            id: 'global.save',
+            defaultMessage: 'Save',
+          })}
+        </Button>
+
+        <TextInput
+          startAction={<Search />}
+          value={search.value}
+          onChange={(e) => search.onChange(e.target.value)}
+          aria-label="Search"
+          placeholder={formatMessage({
+            id: getTrad('search.placeholder'),
+            defaultMessage: 'Search',
+          })}
+        />
+      </Flex>
       <SubNavSections>
         {menu.map((section) => (
           <Fragment key={section.name}>
@@ -66,22 +110,35 @@ export const ContentTypeBuilderNav = () => {
               badgeLabel={section.linksCount.toString()}
             >
               {section.links.map((link) => {
+                const linkLabel = upperFirst(
+                  formatMessage({ id: link.name, defaultMessage: link.title })
+                );
+
                 if (link.links) {
                   return (
                     <SubNavLinkSection key={link.name} label={upperFirst(link.title)}>
-                      {link.links.map((subLink: any) => (
-                        <SubNavLink
-                          tag={NavLink}
-                          to={subLink.to}
-                          active={subLink.active}
-                          key={subLink.name}
-                          isSubSectionChild
-                        >
-                          {upperFirst(
-                            formatMessage({ id: subLink.name, defaultMessage: subLink.title })
-                          )}
-                        </SubNavLink>
-                      ))}
+                      {link.links.map((subLink: any) => {
+                        const label = upperFirst(
+                          formatMessage({ id: subLink.name, defaultMessage: subLink.title })
+                        );
+
+                        return (
+                          <SubNavLink
+                            tag={NavLink}
+                            to={subLink.to}
+                            active={subLink.active}
+                            key={subLink.name}
+                            isSubSectionChild
+                          >
+                            {subLink.status && subLink.status === 'REMOVED' ? (
+                              <s>{label}</s>
+                            ) : (
+                              label
+                            )}
+                            <Circle status={subLink.status} />
+                          </SubNavLink>
+                        );
+                      })}
                     </SubNavLinkSection>
                   );
                 }
@@ -94,7 +151,8 @@ export const ContentTypeBuilderNav = () => {
                     key={link.name}
                     width="100%"
                   >
-                    {upperFirst(formatMessage({ id: link.name, defaultMessage: link.title }))}
+                    {link.status && link.status === 'REMOVED' ? <s>{linkLabel}</s> : linkLabel}
+                    <Circle status={link.status} />
                   </SubNavLinkCustom>
                 );
               })}
