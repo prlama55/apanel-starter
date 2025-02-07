@@ -228,7 +228,7 @@ const Protect = ({ permissions = [], children }: ProtectProps) => {
   const canAccess =
     shouldCheckConditions && permissionsData
       ? !permissionsData.includes(false)
-      : matchingPermissions.length > 0;
+      : matchingPermissions.length === permissions.length;
 
   if (!canAccess) {
     return <NoPermissions />;

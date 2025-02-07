@@ -265,12 +265,12 @@ const ProtectedEditViewPage = () => {
   }
 
   return (
-    <Page.Protect permissions={permissions}>
-      {({ permissions }) => (
-        <DocumentRBAC permissions={permissions}>
-          <EditViewPage />
-        </DocumentRBAC>
-      )}
+    <Page.Protect
+      permissions={permissions.filter((permission) => permission.action.includes('explorer.read'))}
+    >
+      <DocumentRBAC permissions={permissions}>
+        <EditViewPage />
+      </DocumentRBAC>
     </Page.Protect>
   );
 };
