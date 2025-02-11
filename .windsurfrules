@@ -1,0 +1,105 @@
+# Strapi Design System Development Guide (for AI Agents)
+
+This prompt provides context for building UI within the Strapi CMS monorepo using the `@strapi/design-system` package.
+
+**Key Principles:**
+
+1.  **Component-Based UI:** Strapi's UI is built using React components. Favor pre-built components from the design system whenever possible. Only build custom components when absolutely necessary, and then, consider contributing them back to the design system.
+2.  **Styled Components:** The design system uses `styled-components`. Familiarize yourself with its syntax (see examples below).
+3.  **Theme Adherence:** Use the theme tokens provided by `styled-components` to ensure visual consistency. Access theme values using the `theme` prop in styled components. Avoid hardcoding colors, sizes, etc.
+4.  **Accessibility:** Use the provided accessible components (e.g., `Tooltip`, `FocusTrap`, `VisuallyHidden`) and follow ARIA guidelines.
+5.  Use the Box model, with margin, padding, gap and not hardcoded values.
+
+**Importing Components:**
+
+Import all design system components from the root:
+
+```typescript
+// Group the designs system imports into one
+import { Box, Button, Typography, Flex, Grid, GridItem, Stack, Main } from '@strapi/design-system';
+
+import { Plus } from '@strapi/icons'; // Icons are separate
+```
+
+Example: Basic Component Usage
+
+```typescript
+import { Box, Button, Typography } from '@strapi/design-system';
+
+const MyComponent: React.FC = () => {
+  return (
+    <Box padding={8} background="neutral100">
+      <Typography variant="alpha">Hello Strapi!</Typography>
+      <Button variant="secondary">Click Me</Button>
+    </Box>
+  );
+};
+
+export default MyComponent;
+```
+
+Example: Using Styled Components with Theme
+
+```typescript
+// Always import react first, and leave a space between groups
+import { useContext } from 'react';
+
+// Import groups should always be split (groups are: external libraries , @strapi libraries, local imports)
+import { styled } from 'styled-components';
+import { Box } from '@strapi/design-system';
+
+// Always prioritize inlining styles rather than this
+const MyCustomBox = styled(Box)`  background-color: ${(props) => props.theme.colors.neutral200};
+  border-radius: ${(props) => props.theme.borderRadius};
+  padding: ${(props) => props.theme.spaces[4]}; // Use spacing tokens!
+  margin-top: ${({ theme, $marginTop }) => theme.spaces[$marginTop]};`;
+
+const MyComponent = () => {
+  return (
+    <MyCustomBox $marginTop={4}>
+      Some content here.
+    </MyCustomBox>
+  )
+}
+
+```
+
+Responsive Values (Important!):
+
+Many components (like Box, Flex, Grid, Typography) support responsive props. You can pass an object with breakpoints:
+
+```typescript
+<Box
+  padding={{
+    xs: 2, // Extra small screens (default)
+    sm: 4, // Small screens
+    md: 6, // Medium screens
+    lg: 8, // Large screens
+  }}
+>
+  Responsive Padding
+</Box>
+```
+
+Breakpoints:
+
+initial: Default, no media query.
+small: @media (min-width: 520px)
+medium: @media (min-width: 768px)
+large: @media (min-width: 1080px)
+
+Available components (most common, see Storybook for full list):
+Layout: Box, Flex, Grid, GridItem, Main.
+Form elements: Button, TextInput, Textarea, Checkbox, Radio, Select, NumberInput, Toggle, Combobox, DatePicker, TimePicker.
+Feedback: Alert, Loader, ProgressBar, Status, Tooltip.
+Navigation: Accordion, Breadcrumbs, Link, Pagination, Tabs, SubNav.
+Content display: Avatar, Badge, Card, Divider, EmptyStateLayout, RawTable, Tag, Typography.
+Overlay: Dialog, Modal, Popover, SimpleMenu.
+Primitives: These are used for composing more complex components. Prefer higher-level components when possible.
+Important Considerations for AI Agents:
+Prioritize existing components: Always check if a design system component already exists before creating a custom one.
+Use theme tokens: Use theme.colors, theme.sizes, theme.spaces, etc., instead of hardcoded values.
+Accessibility: Use ARIA attributes and semantic HTML. Favor accessible components (e.g., VisuallyHidden).
+Responsiveness: Utilize responsive props (objects with initial, small, medium, large keys) for different screen sizes.
+Composition: Build complex UIs by combining simpler design system components.
+File structure: The design system use file system to split up component into multiple files.
