@@ -1,14 +1,14 @@
-import { Typography, Box, Flex, Avatar } from '@strapi/design-system';
+import { Typography, Flex, Avatar } from '@strapi/design-system';
 
 // @ts-expect-error - fix
-import Logo from '../../../assets/strapi-logo.svg';
+import Logo from '../../../../assets/strapi-logo.svg';
 import {
   CuratedMessage,
   MessageContent,
   isTextContent,
   UserMessage as UserMessageType,
   AssistantMessage as AssistantMessageType,
-} from '../types';
+} from '../../types';
 
 const MessageContent = ({ content }: { content: MessageContent }) => {
   if (isTextContent(content)) {

@@ -3,8 +3,6 @@ import { createContext, useContext } from 'react';
 import { Box, Flex, inputFocusStyle } from '@strapi/design-system';
 import { styled } from 'styled-components';
 
-import { ResizableTextArea } from './ResizableTextArea';
-
 export interface InputContextValue {
   isLoading?: boolean;
 }
@@ -19,7 +17,7 @@ export interface InputRootProps {
 export const Root = ({ children, isLoading = false }: InputRootProps) => {
   return (
     <InputContext.Provider value={{ isLoading }}>
-      <Box width="100%" position="relative" padding={4}>
+      <Box width="100%" position="relative">
         {children}
       </Box>
     </InputContext.Provider>

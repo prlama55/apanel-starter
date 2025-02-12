@@ -2,7 +2,7 @@ import { useRef, useEffect } from 'react';
 
 import { Box, Flex } from '@strapi/design-system';
 
-import { CuratedMessage } from '../types';
+import { CuratedMessage } from '../../types';
 
 import { ChatMessage } from './ChatMessage';
 

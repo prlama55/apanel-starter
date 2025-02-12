@@ -3,8 +3,8 @@ import { useState } from 'react';
 import { Button, IconButton } from '@strapi/design-system';
 import { Paperclip } from '@strapi/icons';
 
-import { Input } from './Input/Input';
-import { ResizableTextArea } from './Input/ResizableTextArea';
+import { Input } from './input/Input';
+import { ResizableTextArea } from './input/ResizableTextArea';
 
 interface ChatInputProps {
   onSendMessage: (message: string) => void;

@@ -64,6 +64,12 @@ const MyComponent = () => {
 
 ```
 
+Example styles and usage:
+
+- Set up border : `borderWidth="0 0 1px" boderStyle="solid" borderColor="neutral200"`
+- Set up padding : `padding="4"`, More granular paddings requires custom styled components
+- IconButton: <IconButton><Icon/></IconButton>
+
 Responsive Values (Important!):
 
 Many components (like Box, Flex, Grid, Typography) support responsive props. You can pass an object with breakpoints:

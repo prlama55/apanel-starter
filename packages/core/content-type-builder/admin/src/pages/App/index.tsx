@@ -8,7 +8,7 @@ import { Flex } from '@strapi/design-system';
 import { useIntl } from 'react-intl';
 import { Route, Routes } from 'react-router-dom';
 
-import { AIChatPanel } from '../../components/AIChatPanel';
+import { Chatbot } from '../../components/AIChat/components/chat/Chat';
 import { AutoReloadOverlayBlockerProvider } from '../../components/AutoReloadOverlayBlocker';
 import { ContentTypeBuilderNav } from '../../components/ContentTypeBuilderNav/ContentTypeBuilderNav';
 import DataManagerProvider from '../../components/DataManagerProvider/DataManagerProvider';
@@ -39,14 +39,7 @@ const App = () => {
       <AutoReloadOverlayBlockerProvider>
         <FormModalNavigationProvider>
           <DataManagerProvider>
-            <Layouts.Root
-              sideNav={
-                <Flex direction="row">
-                  <AIChatPanel isVisible />
-                  <ContentTypeBuilderNav />
-                </Flex>
-              }
-            >
+            <Layouts.Root sideNav={<ContentTypeBuilderNav />}>
               <Suspense fallback={<Page.Loading />}>
                 <Routes>
                   <Route path="content-types/:uid" element={<ListView />} />
@@ -55,6 +48,8 @@ const App = () => {
                     element={<ListView />}
                   />
                 </Routes>
+
+                <Chatbot isOpen />
               </Suspense>
             </Layouts.Root>
           </DataManagerProvider>
