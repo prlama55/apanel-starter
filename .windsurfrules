@@ -67,8 +67,9 @@ const MyComponent = () => {
 Example styles and usage:
 
 - Set up border : `borderWidth="0 0 1px" boderStyle="solid" borderColor="neutral200"`
-- Set up padding : `padding="4"`, More granular paddings requires custom styled components
+- Set up padding : `padding="4"`, `padding={[4, 4, 0, 4]}`
 - IconButton: <IconButton><Icon/></IconButton>
+- Align self: Requires custom styles
 
 Responsive Values (Important!):
 

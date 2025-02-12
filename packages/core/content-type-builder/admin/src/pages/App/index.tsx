@@ -8,7 +8,7 @@ import { Flex } from '@strapi/design-system';
 import { useIntl } from 'react-intl';
 import { Route, Routes } from 'react-router-dom';
 
-import { Chatbot } from '../../components/AIChat/components/chat/Chat';
+import { Chatbot } from '../../components/AIChat/components/Chat';
 import { AutoReloadOverlayBlockerProvider } from '../../components/AutoReloadOverlayBlocker';
 import { ContentTypeBuilderNav } from '../../components/ContentTypeBuilderNav/ContentTypeBuilderNav';
 import DataManagerProvider from '../../components/DataManagerProvider/DataManagerProvider';

@@ -16,7 +16,7 @@ const TextAreaElement = styled(Box).attrs({ as: 'textarea' })`
   border: none;
   resize: none;
   background: transparent;
-  outline: none;
+  outline: none !important;
   width: 100%;
   min-height: 44px;
   padding: 0px;
@@ -46,7 +46,7 @@ export const ResizableTextArea = ({ value, onChange, onSubmit, placeholder }: Te
   };
 
   return (
-    <Box padding={3}>
+    <Box padding={[3, 3, 0, 3]}>
       <TextAreaElement
         ref={textareaRef}
         value={value}
